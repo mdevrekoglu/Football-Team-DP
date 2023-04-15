@@ -2,39 +2,66 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-/**
- * Mehmet_Devrekoglu_2020510028
- */
-public class Mehmet_Devrekoglu_2020510028 {
+public class Trial {
 
     public static int dp(int n, int p, int c, int[] playerSalaries, int[] playerDemands) {
 
         int[][] arr;
+        int keepedMan = 0;
         int totalCost = 0;
-        
+        int cost;
 
         // n-> number of years wanted to be planned
         // p-> number of players you raise in a year
         // c-> cost of a coach for a year
-        int max = Integer.MIN_VALUE;
-        for (int i = 1; i <= n; i++) {
-            int differance = p - playerDemands[i];
-            
-            if(differance > max){
-                max = differance;
-            }
-            //System.out.printf("(%d) Difference between produced and demands: (%d)\n", i, (differance));
-            System.out.println(differance);
+
+        for (int i = n; i > 0; i--) {
+            System.out.printf("(%d) Difference between produced and demands: (%d)\n", i, (p - playerDemands[i]));
         }
-        //System.out.printf("Max differance: %d\n", max);
 
-        arr = new int[n][max + 1];
-        for (int i = 1; i <= n; i++) {
-            for(int j = 0; j <= playerDemands[i]; j++){
-                
-               
+        for (int i = n; i > 0; i--) {
+            int differance = p - playerDemands[i];
+            cost = 0;
+            //System.out.printf("(%d) Difference between produced and demands: (%d)\n", i, (differance));
 
+            // Find the nearest point that difference is positive
+            // return (a > b) ? a : b;
+            int j = i - 1;
+            while (j > 0 && differance < 0) {
+                int dif = p - playerDemands[j];
+
+                if (dif > 0) {
+
+                    int q = j + 1;
+                    while(q != i){
+                        dif += p - playerDemands[q];                     
+                        q++;
+                    }
+
+                    if(dif > 0){
+                        cost = playerSalaries[dif] * (i - j);
+                        if (cost < c * dif) {
+                            totalCost += cost;
+                            playerDemands[j] += dif;
+                            differance += dif;
+
+                            // keep these mans
+                            // Print information
+                        }
+                        else{
+                            break;
+                        }
+                    }
+                }
+
+                j--;
             }
+
+            if (differance < 0) {
+                totalCost += c * Math.abs(differance);
+                // print information
+            }
+
         }
 
         return totalCost;
@@ -92,7 +119,7 @@ public class Mehmet_Devrekoglu_2020510028 {
 
     public static void main(String[] args) {
 
-        System.out.println("\nHello World!\n");
+        System.out.println("\nHello World!");
 
         int[] playerSalaries = readAndAssign("players_salary.txt");
         int[] playerDemands = readAndAssign("yearly_player_demand.txt");
