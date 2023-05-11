@@ -133,8 +133,8 @@ public class Mehmet_Devrekoglu_2020510028 {
                         continue;
                     }
                     
-                    
-                    int num = -1;
+                    // To remove the players that will not be taken from the previous years
+                    int num = 0;
                     // If the limit is 0,
                     // it means that you can't take any player from the previous year
                     if(limit == i - 1){
@@ -316,7 +316,9 @@ public class Mehmet_Devrekoglu_2020510028 {
         int c = 10; // c-> cost of a coach for a year
 
         // Call DP function
+        long startTime = System.nanoTime();
         int minimumCost = dp(n, p, c, playerSalaries, playerDemands);
+        long endTime = System.nanoTime();
         System.out.println();
 
         // Printing the results
@@ -324,5 +326,6 @@ public class Mehmet_Devrekoglu_2020510028 {
         System.out.println("Number of players you raise in a year: " + p);
         System.out.println("Cost of a coach for a year: " + c);
         System.out.println("Minimum cost: " + minimumCost);
+        System.out.println("Time taken: " + (endTime - startTime) / 1000000 + " ms");
     }
 }
