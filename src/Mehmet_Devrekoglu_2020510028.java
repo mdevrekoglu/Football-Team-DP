@@ -7,6 +7,7 @@ import java.io.IOException;
  */
 public class Mehmet_Devrekoglu_2020510028 {
 
+    // A dynamic programming approach to find optimal solution
     public static int dp(int n, int p, int c, int[] playerSalaries, int[] playerDemands) {
 
         // A cumilative array for the remaning players
@@ -49,10 +50,11 @@ public class Mehmet_Devrekoglu_2020510028 {
         }
 
         // For debugging
-        /*
+        /* 
         for (int i = 1; i <= n; i++) {
             System.out.printf("(%d) difference between produced and demands: (%d)\n", i, (p - playerDemands[i]));
         }
+        System.out.println();
         */
         
         // If minimum value is negative, it means that your problem includes negative values
@@ -120,6 +122,13 @@ public class Mehmet_Devrekoglu_2020510028 {
 
                         // Assign total number of players taken from the previous years
                         remaningPlayerCopy[j] = difference + remaningPlayerCopy[(j != n) ? j + 1 : j];
+
+                        // Print how many players taken from the previous years and how many coaches hired
+                        if(i == min + 1){
+                            System.out.printf("(%d) %d Coachs hired, %d Players taken from the previous years\n", j
+                            , difference * -1 - remaningPlayerCopy[j - 1], remaningPlayerCopy[j - 1]);
+                        }
+
                         // Dont need to check the rest of the code
                         continue;
                     }
@@ -163,6 +172,12 @@ public class Mehmet_Devrekoglu_2020510028 {
 
                     // Calculate the cost for the previous years
                     double previousYearsCost = arr[i - 1][j] - arr[i - 1][(j != n) ? j + 1 : 0];
+
+                    // Print how many players taken from the previous years and how many coaches hired
+                    if(i == min + 1){
+                        System.out.printf("(%d) %d Coachs hired, %d Players taken from the previous years\n", j
+                        , difference * -1 - remaningPlayerCopy[j - 1], remaningPlayerCopy[j - 1]);
+                    }
 
                     // If the limit is 0 cost has to be calculated value
                     if(i == 1){
@@ -296,12 +311,13 @@ public class Mehmet_Devrekoglu_2020510028 {
         int[] playerSalaries = readAndAssign("players_salary.txt");
         int[] playerDemands = readAndAssign("yearly_player_demand.txt");
 
-        int n = 25; // n-> number of years wanted to be planned
+        int n = 20; // n-> number of years wanted to be planned
         int p = 5; // p-> number of players you raise in a year
         int c = 10; // c-> cost of a coach for a year
 
         // Call DP function
         int minimumCost = dp(n, p, c, playerSalaries, playerDemands);
+        System.out.println();
 
         // Printing the results
         System.out.println("Number of years wanted to be planned: " + n);
